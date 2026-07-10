@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No es que no quieran · Sueldos, vivienda e hijos en España</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#10211A;--night-2:#0B1712;--paper:#F1EDE3;--paper-2:#E8E2D4;
+    --ink:#1B1A16;--ink-soft:#5B5850;--line:rgba(27,26,22,.14);
+    --earn:#1C8A62;--earn-bright:#37B183;--earn-tint:rgba(28,138,98,.12);
+    --cost:#CE3453;--cost-bright:#EA5A76;--cost-tint:rgba(206,52,83,.12);
+    --gold:#C6952B;--maxw:1160px;
+    --serif:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:19px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+  .narrow{max-width:640px}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.06;letter-spacing:-.01em;margin:0}
+  em{font-style:italic}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  .hero{background:var(--night);color:#F1EDE3;min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:80px 0}
+  .hero .wrap{position:relative;z-index:2}
+  .hero .eyebrow{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:26px}
+  .hero h1{font-size:clamp(40px,8.5vw,100px);font-weight:600;color:#F6F2E9;max-width:15ch}
+  .hero h1 .g{color:var(--earn-bright);font-style:italic}
+  .hero h1 .r{color:var(--cost-bright);font-style:italic}
+  .hero .sub{font-size:clamp(18px,2.3vw,23px);color:#C9C6BC;max-width:46ch;margin-top:30px;line-height:1.55}
+  .hero .scrollcue{margin-top:60px;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:#8A968D;display:flex;align-items:center;gap:12px}
+  .hero .scrollcue .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.35;transform:translateY(0)}50%{opacity:1;transform:translateY(4px)}}
+  .threads{position:absolute;inset:0;z-index:1;opacity:.5}
+
+  .act{background:var(--night);color:#F1EDE3;padding:clamp(80px,13vh,160px) 0}
+  .act .num{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold);letter-spacing:.02em;margin-bottom:18px;display:block}
+  .act h2{font-size:clamp(32px,5.6vw,64px);color:#F6F2E9;max-width:19ch}
+  .act h2 .g{color:var(--earn-bright);font-style:italic}
+  .act h2 .r{color:var(--cost-bright);font-style:italic}
+  .act p{color:#C7C4BA;max-width:47ch;font-size:clamp(17px,2.1vw,21px);margin-top:26px;line-height:1.6}
+
+  .read{padding:clamp(56px,8vh,104px) 0}
+  .read p{margin:0 0 22px}
+  .read .lead{font-family:var(--serif);font-size:clamp(23px,3.4vw,32px);line-height:1.32;font-weight:400;color:var(--ink);margin-bottom:30px}
+  .kicker{font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--cost);margin-bottom:18px}
+  .kicker.g{color:var(--earn)}
+
+  .scrolly{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto;padding:0 26px}
+  .scrolly .viz-col{position:relative}
+  .scrolly .viz{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center}
+  .viz-inner{width:100%;max-width:560px}
+  .steps{padding:34vh 0 40vh}
+  .step{min-height:66vh;display:flex;flex-direction:column;justify-content:center;padding:0 0 0 8px}
+  .step-card{background:var(--paper);border-left:3px solid var(--line);padding:4px 0 4px 22px;transition:border-color .4s ease,opacity .4s ease;opacity:.42}
+  .step.is-active .step-card{opacity:1}
+  .step.is-active .step-card.c-earn{border-color:var(--earn)}
+  .step.is-active .step-card.c-cost{border-color:var(--cost)}
+  .step.is-active .step-card.c-gold{border-color:var(--gold)}
+  .step h3{font-size:clamp(23px,3.2vw,32px);margin-bottom:12px}
+  .step p{font-size:17px;color:var(--ink-soft);margin:0;line-height:1.55}
+  .step .big{font-family:var(--serif);font-weight:600;font-size:clamp(42px,6.6vw,68px);line-height:.95;display:block;margin-bottom:6px}
+  .step .big.earn{color:var(--earn)}
+  .step .big.cost{color:var(--cost)}
+  .step .unit{font-size:.4em;font-style:italic;color:var(--ink-soft);font-weight:400}
+
+  .chart-title{font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--ink);margin-bottom:2px}
+  .chart-sub{font-size:12.5px;color:var(--ink-soft);margin-bottom:14px}
+  .chart-src{font-size:11.5px;color:var(--ink-soft);margin-top:14px;opacity:.85;line-height:1.4}
+  svg{display:block;width:100%;height:auto;overflow:visible}
+  .axis-txt{font-family:var(--sans);font-size:12px;fill:var(--ink-soft)}
+  .grid-line{stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+  .lp{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.2s ease}
+  .lp.drawn{stroke-dashoffset:0}
+  .pt{opacity:0;transition:opacity .5s ease,r .3s ease}
+  .pt.on{opacity:1}
+  .plabel{font-family:var(--serif);font-weight:600;opacity:0;transition:opacity .5s ease}
+  .plabel.on{opacity:1}
+  .bar{transition:width 1s cubic-bezier(.2,.7,.3,1),opacity .5s ease}
+  .gapbar{transition:height .9s cubic-bezier(.2,.7,.3,1),y .9s cubic-bezier(.2,.7,.3,1),opacity .4s ease}
+  .barlbl{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+  .barval{font-family:var(--serif);font-weight:600;font-size:15px}
+
+  .stats{background:var(--night);color:#F1EDE3;padding:clamp(56px,8vh,104px) 0}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:10px}
+  .stat{border-top:2px solid rgba(241,237,227,.18);padding-top:20px}
+  .stat .n{font-family:var(--serif);font-weight:600;font-size:clamp(38px,5.6vw,60px);line-height:.98;color:var(--gold)}
+  .stat .n.earn{color:var(--earn-bright)}
+  .stat .n.cost{color:var(--cost-bright)}
+  .stat .l{font-size:15px;color:#C7C4BA;margin-top:12px;line-height:1.45}
+  .stats h2{color:#F6F2E9;font-size:clamp(28px,4.5vw,46px);max-width:21ch;margin-bottom:8px}
+  .stats .intro{color:#C7C4BA;max-width:50ch;margin:22px 0 42px;font-size:18px}
+
+  .pull{padding:clamp(48px,7vh,90px) 0}
+  .pull blockquote{margin:0;max-width:900px}
+  .pull q{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(25px,4.4vw,44px);line-height:1.22;quotes:"\201C" "\201D"}
+  .pull .cite{font-size:14px;letter-spacing:.02em;color:var(--ink-soft);margin-top:24px;line-height:1.55}
+  .pull .cite b{color:var(--ink);font-weight:600}
+
+  .close{background:var(--night);color:#F1EDE3;padding:clamp(80px,13vh,150px) 0}
+  .close h2{color:#F6F2E9;font-size:clamp(30px,5vw,54px);max-width:20ch}
+  .close h2 .r{color:var(--cost-bright);font-style:italic}
+  .close h2 .g{color:var(--earn-bright);font-style:italic}
+  .close p{color:#CFCCC3;max-width:52ch;font-size:19px;margin:26px 0 0;line-height:1.6}
+  .close .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold);margin-top:38px}
+
+  .sources{background:var(--night-2);color:#9FA79E;padding:56px 0 88px;font-size:13.5px;line-height:1.7}
+  .sources h4{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#C7C4BA;margin:0 0 18px}
+  .sources ol{margin:0;padding-left:20px}
+  .sources li{margin-bottom:8px}
+  .sources .note{margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.09);color:#828A80;max-width:72ch}
+
+  .progress{position:fixed;top:0;left:0;height:3px;background:var(--cost);width:0;z-index:50;transition:width .1s linear}
+
+  @media(max-width:820px){
+    body{font-size:17px}
+    .scrolly{grid-template-columns:1fr}
+    .scrolly .viz-col{position:sticky;top:0;height:46vh;z-index:5;background:var(--paper);display:flex;align-items:center;box-shadow:0 14px 24px -18px rgba(0,0,0,.55);border-bottom:1px solid var(--line)}
+    .scrolly .viz{position:static;height:auto;width:100%;padding:10px 0}
+    .viz-inner{max-width:100%}
+    .viz-inner svg{max-height:32vh}
+    .steps{padding:3vh 0 24vh}
+    .step{min-height:72vh;padding:0}
+    .step .big{font-size:clamp(40px,12vw,58px)}
+    .stat-grid{grid-template-columns:1fr;gap:22px}
+    .hero h1{font-size:clamp(34px,9.5vw,60px)}
+    .act h2{font-size:clamp(28px,7.5vw,52px)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{animation:none!important;transition:none!important}
+    .lp{stroke-dashoffset:0!important}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<!-- HERO -->
+<header class="hero">
+  <svg class="threads" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M-50,620 C300,600 620,560 900,470 C1150,392 1320,320 1500,250" fill="none" stroke="var(--earn-bright)" stroke-width="2.5" opacity="0.55"/>
+    <path d="M-50,660 C300,650 640,650 940,600 C1200,556 1360,470 1500,360" fill="none" stroke="var(--cost-bright)" stroke-width="2.5" opacity="0.55"/>
+  </svg>
+  <div class="wrap">
+    <span class="eyebrow">Los jóvenes de España · datos oficiales</span>
+    <h1>No es que <span class="r">no quieran</span>. Es que <span class="g">no pueden</span>.</h1>
+    <p class="sub">Por qué en España nacen cada vez menos niños. Sin opiniones: solo los números del INE, el Banco de España y Eurostat. Baja despacio.</p>
+    <div class="scrollcue"><span class="dot"></span> Desliza para empezar</div>
+  </div>
+</header>
+
+<!-- ACT 0: SALARIO -->
+<section class="act">
+  <div class="wrap">
+    <span class="num">Primero</span>
+    <h2>Antes de hablar de "años de sueldo", conviene saber <span class="g">cuánto es un sueldo</span> en España.</h2>
+    <p>Porque no todo el mundo cobra lo mismo, y la media no cuenta toda la verdad.</p>
+  </div>
+</section>
+
+<!-- SCROLLY 0: salario -->
+<div class="scrolly" id="sc-sal">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Salario bruto anual en España · 2024</div>
+    <div class="chart-sub">Tres formas de medir "el sueldo"</div>
+    <svg id="svg-sal" viewBox="0 0 560 300" role="img" aria-label="Salario medio 29.540, mediano 24.497 y más frecuente 16.520 euros"></svg>
+    <div class="chart-src">Fuente: INE · Encuesta Anual de Estructura Salarial 2024</div>
+  </div></div></div>
+  <div class="steps" id="steps-sal">
+    <div class="step" data-scene="sal" data-step="0"><div class="step-card c-gold">
+      <span class="big tnum" style="color:var(--gold)">29.540&nbsp;€</span>
+      <h3>El salario medio</h3>
+      <p>Es el dato que suele citarse. Pero la media la inflan los sueldos más altos: no es lo que cobra la mayoría.</p>
+    </div></div>
+    <div class="step" data-scene="sal" data-step="1"><div class="step-card c-cost">
+      <span class="big cost tnum">16.520&nbsp;€</span>
+      <h3>El salario más frecuente</h3>
+      <p>El sueldo que más se repite entre los trabajadores: 13.000 euros por debajo de la media.</p>
+    </div></div>
+    <div class="step" data-scene="sal" data-step="2"><div class="step-card c-earn">
+      <span class="big earn tnum">24.497&nbsp;€</span>
+      <h3>El salario mediano · el que usaremos</h3>
+      <p>La mitad de los asalariados cobra menos de esto. Es la foto más honesta del sueldo típico, y la unidad que usaremos a partir de aquí: cuando digamos "años de sueldo", será de <b>este</b> salario.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- STATS: salario por CCAA -->
+<section class="stats">
+  <div class="wrap">
+    <h2>Y cambia mucho según dónde se viva.</h2>
+    <p class="intro">El salario medio va de 35.170 € en el País Vasco a 24.979 € en Extremadura. Para comparar con la misma vara, usaremos el <b style="color:#F1EDE3">salario mediano nacional: 24.497 €</b>.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="n earn tnum">35.170&nbsp;€</div><div class="l">País Vasco: el salario medio más alto de España.</div></div>
+      <div class="stat"><div class="n tnum">29.540&nbsp;€</div><div class="l">La media nacional, como referencia.</div></div>
+      <div class="stat"><div class="n cost tnum">24.979&nbsp;€</div><div class="l">Extremadura: el más bajo. Más de 10.000 € de diferencia con el País Vasco.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT I -->
+<section class="act">
+  <div class="wrap">
+    <span class="num">Parte uno · la vivienda</span>
+    <h2>Con el salario mediano, comprar una casa cuesta hoy <span class="r">más de 9 años</span> de sueldo íntegro.</h2>
+    <p>No es una sensación: es una cuenta. Cuántos años habría que trabajar, entregando el salario mediano entero, para pagar una vivienda de 80 m².</p>
+  </div>
+</section>
+
+<!-- STATS: contexto histórico (sin gráfico deformado) -->
+<section class="stats">
+  <div class="wrap">
+    <h2>No siempre fue así.</h2>
+    <p class="intro">El esfuerzo para comprar una vivienda ha cambiado por completo en cuatro décadas.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="n earn tnum">≈3</div><div class="l">años de sueldo bastaban en <b>1987</b> para pagar una vivienda (Banco de España).</div></div>
+      <div class="stat"><div class="n cost tnum">9,45</div><div class="l">años, el pico de la <b>burbuja de 2007</b>. Aquel récord acabó estallando.</div></div>
+      <div class="stat"><div class="n tnum">2008</div><div class="l">el año en que la burbuja reventó en crisis. La lección fue: no puede repetirse.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCROLLY 1: evolución años de sueldo (eje temporal real 2015-2025) -->
+<div class="scrolly" id="sc-evo">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Años de sueldo para comprar una vivienda de 80 m²</div>
+    <div class="chart-sub">España · serie anual, salario ofertado (Fotocasa-InfoJobs)</div>
+    <svg id="svg-evo" viewBox="0 0 560 420" role="img" aria-label="Años de sueldo de 5,5 en 2015 a 8,4 en 2025"></svg>
+    <div class="chart-src">Fuente: Fotocasa-InfoJobs, estudio anual "Relación de salarios y compra de vivienda"</div>
+  </div></div></div>
+  <div class="steps" id="steps-evo">
+    <div class="step" data-scene="evo" data-step="0"><div class="step-card c-earn">
+      <span class="big earn tnum">5,5<span class="unit"> años</span></span>
+      <h3>2015. Tras la crisis.</h3>
+      <p>Cuando el mercado tocó fondo, comprar volvió a estar algo más al alcance: el sueldo íntegro de cinco años y medio.</p>
+    </div></div>
+    <div class="step" data-scene="evo" data-step="1"><div class="step-card c-cost">
+      <span class="big cost tnum">6,0<span class="unit"> años</span></span>
+      <h3>Y no paró de subir.</h3>
+      <p>Año tras año, el esfuerzo creció mientras los sueldos apenas se movían. La escalada fue constante.</p>
+    </div></div>
+    <div class="step" data-scene="evo" data-step="2"><div class="step-card c-cost">
+      <span class="big cost tnum">8,4<span class="unit"> años</span></span>
+      <h3>2025-2026. Ahora.</h3>
+      <p>El estudio marca <b>8,4 años</b> con el salario ofertado. Pero en 2026 el precio ha vuelto a dispararse (+17% en un año, máximos históricos): medido con el salario mediano, la cifra real es aún mayor.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- STATS: años con el salario mediano (2026) -->
+<section class="stats">
+  <div class="wrap">
+    <h2>Y con el salario mediano, la cuenta es aún más dura.</h2>
+    <p class="intro">Ese estudio usa el salario ofertado. Si usamos el salario mediano real del INE (24.497 €) y los precios de 2026, esto es lo que cuesta hoy una vivienda de 80 m²:</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="n tnum">7,9</div><div class="l">años sobre el <b>precio real de compraventa</b> (Registradores, 2.429 €/m², 2026).</div></div>
+      <div class="stat"><div class="n cost tnum">9,1</div><div class="l">años sobre el <b>precio de los pisos anunciados</b> (idealista, 2.795 €/m², 2026).</div></div>
+      <div class="stat"><div class="n cost tnum">+18<span style="font-size:.5em">%</span></div><div class="l">subió el precio de la vivienda en <b>solo un año</b>. En máximos históricos: el nivel más alto en 21 años.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- READING -->
+<section class="read"><div class="wrap narrow">
+  <div class="kicker">El motor del problema</div>
+  <p class="lead">La pregunta no es por qué suben los pisos. Es por qué los sueldos se quedaron atrás.</p>
+  <p>Cuando una cosa vuela y la otra camina, la distancia entre las dos se convierte en un muro. En la última década se ve con claridad.</p>
+</div></section>
+
+<!-- SCROLLY 2: divergencia -->
+<div class="scrolly" id="sc-div">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Sueldos frente a alquiler · 2014 = 100</div>
+    <div class="chart-sub">Cuánto ha crecido cada cosa en una década</div>
+    <svg id="svg-div" viewBox="0 0 560 420" role="img" aria-label="Salarios +30% frente a alquileres +82% entre 2014 y 2024"></svg>
+    <div class="chart-src">Fuente: INE (Condiciones de Vida) e Idealista · Revista ICE nº 942</div>
+  </div></div></div>
+  <div class="steps" id="steps-div">
+    <div class="step" data-scene="div" data-step="0"><div class="step-card c-earn">
+      <span class="big earn tnum">+30<span class="unit"> %</span></span>
+      <h3>Lo que subió el sueldo</h3>
+      <p>Entre 2014 y 2024, el salario medio creció un 30%. Sobre el papel, se cobra más que antes.</p>
+    </div></div>
+    <div class="step" data-scene="div" data-step="1"><div class="step-card c-cost">
+      <span class="big cost tnum">+82<span class="unit"> %</span></span>
+      <h3>Lo que subió el alquiler</h3>
+      <p>En el mismo tiempo, el alquiler subió un 82%: casi el triple. Cada euro de más se lo lleva la casa, y sobra factura.</p>
+    </div></div>
+    <div class="step" data-scene="div" data-step="2"><div class="step-card c-gold">
+      <h3>Esta es la brecha</h3>
+      <p>La zona sombreada es la distancia entre lo que se gana y lo que cuesta vivir. Y en 2026 se ensancha aún más: el precio de la vivienda sube un 17% en un año; los salarios, apenas un 5%. La misma brecha reaparecerá con los hijos.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- READING -->
+<section class="read"><div class="wrap narrow">
+  <div class="kicker">No es igual en todas partes</div>
+  <p class="lead">En algunos sitios la casa cuesta 3 años de sueldo. En otros, quince.</p>
+  <p>Depende de dónde se viva. Y donde hay más empleo y mejores sueldos —Madrid, Baleares, País Vasco— es justo donde comprar se ha vuelto casi imposible.</p>
+</div></section>
+
+<!-- SCROLLY 3: CCAA -->
+<div class="scrolly" id="sc-ccaa">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Años del salario mediano para una vivienda de 80 m² · 2026</div>
+    <div class="chart-sub">Por comunidad · precio de oferta ÷ salario mediano nacional</div>
+    <svg id="svg-ccaa" viewBox="0 0 560 470" role="img" aria-label="Años del salario mediano por comunidad autónoma en 2026"></svg>
+    <div class="chart-src">idealista (€/m², ene 2026) ÷ salario mediano INE 24.497 € · (~) aprox.</div>
+  </div></div></div>
+  <div class="steps" id="steps-ccaa">
+    <div class="step" data-scene="ccaa" data-step="0"><div class="step-card c-cost">
+      <span class="big cost tnum">17<span class="unit"> años</span></span>
+      <h3>Baleares y Madrid</h3>
+      <p>Entre 15 y 17 años del salario mediano entero: trabajar sin gastar en nada más durante casi dos décadas.</p>
+    </div></div>
+    <div class="step" data-scene="ccaa" data-step="1"><div class="step-card c-gold">
+      <span class="big tnum" style="color:var(--gold)">9,1</span>
+      <h3>La media de España</h3>
+      <p>Nueve años del salario mediano. El País Vasco supera los 11; Canarias, los 10; Cataluña roza los 9. La barra dorada marca la media nacional.</p>
+    </div></div>
+    <div class="step" data-scene="ccaa" data-step="2"><div class="step-card c-earn">
+      <span class="big earn tnum">3,4</span>
+      <h3>Donde aún se puede</h3>
+      <p>Solo en las comunidades más baratas —Extremadura, Castilla-La Mancha— baja de 4 años. Suelen ser las de menos empleo. Elegir: casa o trabajo.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- STATS: emancipación -->
+<section class="stats">
+  <div class="wrap">
+    <h2>Por eso los jóvenes siguen en casa de sus padres.</h2>
+    <p class="intro">No es comodidad: es que la cuenta no sale. Y tiene una consecuencia directa en lo que viene después.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="n cost tnum">30,3</div><div class="l">años, la edad media a la que un joven español se independiza: la más alta en dos décadas.</div></div>
+      <div class="stat"><div class="n tnum">31<span style="font-size:.5em">%</span></div><div class="l">de los jóvenes de 16 a 34 años vive fuera de casa. Mínimo histórico.</div></div>
+      <div class="stat"><div class="n cost tnum">47→36<span style="font-size:.5em">%</span></div><div class="l">cayó la emancipación entre los 25 y 29 años en solo una década.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACT II -->
+<section class="act">
+  <div class="wrap">
+    <span class="num">Parte dos · los hijos</span>
+    <h2>Y así llegamos a la pregunta de siempre: <span class="g">¿y los nietos?</span></h2>
+    <p>La respuesta corta: los jóvenes quieren tenerlos, y las cuentas no se lo permiten. La larga son estos datos.</p>
+  </div>
+</section>
+
+<!-- STATS: natalidad -->
+<section class="stats">
+  <div class="wrap">
+    <h2>España tiene una de las natalidades más bajas del mundo.</h2>
+    <p class="intro">Antes de hablar de razones, el tamaño del hecho. Esto no es "una generación": es un país entero.</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="n cost tnum">1,10</div><div class="l">hijos por mujer en 2024. Mínimo histórico. Segundo país con menos hijos de la UE, solo tras Malta.</div></div>
+      <div class="stat"><div class="n tnum">318.005</div><div class="l">bebés nacidos en 2024: la cifra más baja desde que hay registros, en 1941.</div></div>
+      <div class="stat"><div class="n tnum">32,6</div><div class="l">años, la edad media a la que las mujeres tienen su primer hijo. Cada vez más tarde.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- READING -->
+<section class="read"><div class="wrap narrow">
+  <div class="kicker g">No es una moda pasajera</div>
+  <p class="lead">La caída de la natalidad no es de ahora: viene de lejos.</p>
+  <p>España está por debajo del nivel necesario para reemplazar a su población desde 1982. Son cuatro décadas de tendencia, no un capricho reciente.</p>
+</div></section>
+
+<!-- SCROLLY 4: fecundidad histórica (eje temporal real 1975-2024) -->
+<div class="scrolly" id="sc-fert">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Hijos por mujer en España · 1975 → 2024</div>
+    <div class="chart-sub">Medio siglo por debajo del relevo generacional</div>
+    <svg id="svg-fert" viewBox="0 0 560 420" role="img" aria-label="Descenso de la fecundidad de 2,8 en 1976 a 1,10 en 2024"></svg>
+    <div class="chart-src">Fuente: INE, indicador coyuntural de fecundidad · valores intermedios indicativos</div>
+  </div></div></div>
+  <div class="steps" id="steps-fert">
+    <div class="step" data-scene="fert" data-step="0"><div class="step-card c-earn">
+      <span class="big earn tnum">2,8</span>
+      <h3>1975</h3>
+      <p>Hace medio siglo, cada mujer tenía casi tres hijos de media. La familia numerosa era lo normal.</p>
+    </div></div>
+    <div class="step" data-scene="fert" data-step="1"><div class="step-card c-gold">
+      <span class="big tnum" style="color:var(--gold)">2,01</span>
+      <h3>1982: el punto de no retorno</h3>
+      <p>Desde ese año, España no alcanza el nivel necesario para reemplazar a su población (2,01 hijos por mujer). Nunca ha vuelto a superarlo.</p>
+    </div></div>
+    <div class="step" data-scene="fert" data-step="2"><div class="step-card c-cost">
+      <span class="big cost tnum">1,10</span>
+      <h3>2024</h3>
+      <p>Hoy la cifra es menos de la mitad que en los setenta, y la más baja de toda la serie histórica.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- READING -->
+<section class="read"><div class="wrap narrow">
+  <div class="kicker g">El dato que lo cambia todo</div>
+  <p class="lead">La idea de que "los jóvenes son egoístas y no quieren hijos" choca con lo que ellos mismos responden.</p>
+  <p>Cuando el INE les pregunta cuántos hijos <em>querrían</em> tener, la respuesta no es cero. Es dos. Aquí reaparece la brecha: entre lo que se desea y lo que se puede.</p>
+</div></section>
+
+<!-- SCROLLY 5: deseado vs real -->
+<div class="scrolly" id="sc-gap">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Hijos deseados frente a hijos reales</div>
+    <div class="chart-sub">Lo que la gente quiere · lo que la gente tiene</div>
+    <svg id="svg-gap" viewBox="0 0 560 420" role="img" aria-label="Hijos deseados 2 frente a hijos reales 1,10"></svg>
+    <div class="chart-src">Fuentes: INE, Encuesta de Fecundidad (deseo) · Movimiento Natural de la Población 2024 (real)</div>
+  </div></div></div>
+  <div class="steps" id="steps-gap">
+    <div class="step" data-scene="gap" data-step="0"><div class="step-card c-earn">
+      <span class="big earn tnum">2</span>
+      <h3>Lo que querrían</h3>
+      <p>Casi <b>tres de cada cuatro</b> jóvenes dicen que querrían al menos dos hijos. El deseo de formar familia sigue intacto.</p>
+    </div></div>
+    <div class="step" data-scene="gap" data-step="1"><div class="step-card c-cost">
+      <span class="big cost tnum">1,10</span>
+      <h3>Lo que tienen</h3>
+      <p>La realidad se queda casi en la mitad. No por falta de ganas, sino por todo lo que aparece en la primera parte.</p>
+    </div></div>
+    <div class="step" data-scene="gap" data-step="2"><div class="step-card c-gold">
+      <h3>Esta brecha no es egoísmo</h3>
+      <p>Es un plan de vida que no cabe en una nómina. La misma distancia que separa el sueldo de la casa separa hoy a la gente de sus hijos.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- READING -->
+<section class="read"><div class="wrap narrow">
+  <div class="kicker">Las razones, en su propia voz</div>
+  <p class="lead">Cuando se les pregunta qué se lo impide, no dicen "prefiero viajar". Dicen otra cosa.</p>
+  <p>Estos son los motivos que la propia gente marca en las encuestas oficiales. Ninguno de ellos es un capricho.</p>
+</div></section>
+
+<!-- SCROLLY 6: razones -->
+<div class="scrolly" id="sc-raz">
+  <div class="viz-col"><div class="viz"><div class="viz-inner">
+    <div class="chart-title">Por qué se retrasan o se renuncia a los hijos</div>
+    <div class="chart-sub">% de personas que señala cada motivo</div>
+    <svg id="svg-raz" viewBox="0 0 560 380" role="img" aria-label="68% vivienda, 52% contrato temporal, 28% económico"></svg>
+    <div class="chart-src">Fuentes: Comunidad de Madrid, "Radiografía de la natalidad" · INE · EPA</div>
+  </div></div></div>
+  <div class="steps" id="steps-raz">
+    <div class="step" data-scene="raz" data-step="0"><div class="step-card c-cost">
+      <span class="big cost tnum">68<span class="unit"> %</span></span>
+      <h3>Primero, un techo</h3>
+      <p>El 68% de las mujeres menores de 45 pone <b>tener una vivienda adecuada</b> como condición para plantearse hijos. Sin casa, no hay cuna.</p>
+    </div></div>
+    <div class="step" data-scene="raz" data-step="1"><div class="step-card c-cost">
+      <span class="big cost tnum">52<span class="unit"> %</span></span>
+      <h3>Un trabajo que no dura</h3>
+      <p>Más de la mitad de los menores de 30 tiene contrato temporal. Cuesta planear una familia a años vista sin saber si habrá empleo en seis meses.</p>
+    </div></div>
+    <div class="step" data-scene="raz" data-step="2"><div class="step-card c-gold">
+      <span class="big tnum" style="color:var(--gold)">334.000 €</span>
+      <h3>Y una factura enorme</h3>
+      <p>Criar a un hijo hasta que se emancipa cuesta de media unos 334.000&nbsp;euros: casi lo mismo que comprar la vivienda que tampoco pueden pagar.</p>
+    </div></div>
+  </div>
+</div>
+
+<!-- PULLQUOTE -->
+<section class="pull"><div class="wrap">
+  <blockquote>
+    <q>Hay una brecha cada vez mayor entre el deseo de tener hijos y el momento en que la vida permite tenerlos.</q>
+    <div class="cite">Es cierto que también han cambiado las prioridades, y hay quien, con toda libertad, decide no ser madre o padre — y eso merece respeto. Pero para la mayoría en edad de tenerlos, el freno que más se repite en las encuestas no es el deseo: es <b>el dinero, el empleo y la vivienda</b>.</div>
+  </blockquote>
+</div></section>
+
+<!-- CLOSING -->
+<section class="close">
+  <div class="wrap narrow">
+    <h2>No es que los jóvenes <span class="r">no quieran dar nietos</span>.</h2>
+    <p>Es que la vivienda cuesta el doble de años de sueldo que hace una generación, el alquiler corre casi el triple que los salarios, y se emancipan —si pueden— casi diez años más tarde que sus padres.</p>
+    <p>Quieren las mismas cosas que quisieron quienes vinieron antes. Solo que se las han puesto detrás de un muro que no construyeron. Estos números no son una queja: son un mapa de por dónde tendría que moverse ese muro.</p>
+    <div class="sign">— Los datos son públicos. Cada fuente, aquí abajo.</div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<footer class="sources">
+  <div class="wrap">
+    <h4>Fuentes</h4>
+    <ol>
+      <li><b>INE</b> — Encuesta Anual de Estructura Salarial 2024 (datos definitivos, publicados el 28 de mayo de 2026): salario <b>mediano 24.497 €</b>, medio 29.540 € y más frecuente (modal) 16.520 €; salario medio por comunidad (País Vasco 35.170 €, Extremadura 24.979 €).</li>
+      <li><b>Colegio de Registradores</b> — precio de compraventa (escrituras) 2.429 €/m² (1<sup>er</sup> trimestre 2026). <b>idealista</b> — 2.795 €/m² (mayo 2026) y desglose por comunidad (enero 2026). <b>Fotocasa</b> — 3.133 €/m² y +17,2% interanual (2º trimestre 2026), máximo en 21 años.</li>
+      <li><b>Banco de España</b> — acceso a la vivienda: años de renta bruta familiar (≈3 en 1987; 9,45 en el pico de 2007). <b>Fotocasa · InfoJobs</b> — serie anual "años de salario" 2015-2025 (de 5,5 a 8,4, salario ofertado).</li>
+      <li><b>INE</b> e <b>idealista</b>, vía <b>Revista ICE nº 942</b>: salarios +30% frente a alquileres +82% (2014-2024). Alquiler 2026: Madrid 20,66 €/m²/mes.</li>
+      <li><b>Consejo de la Juventud de España</b> — Observatorio de Emancipación: edad media 30,3 años.</li>
+      <li><b>INE</b> — Movimiento Natural de la Población 2024 (publicado el 19 de noviembre de 2025): 1,10 hijos por mujer; 318.005 nacimientos; edad media a la maternidad 32,6. Indicador coyuntural de fecundidad (serie histórica).</li>
+      <li><b>INE</b> — Encuesta de Fecundidad: hijos deseados ≈2. <b>Comunidad de Madrid</b> — "Radiografía de la natalidad": 68% pone la vivienda como condición. <b>Eurostat</b> — comparativa europea.</li>
+    </ol>
+    <p class="note">Cómo se calcula "años de sueldo": precio de una vivienda de 80 m² ÷ salario <b>mediano</b> anual del INE (24.497 €). El precio real de compraventa (Registradores) es inferior al precio de oferta (idealista/Fotocasa), por eso damos ambos: la cifra va de ~8 a ~10 años según la fuente de precio. Las cifras de 1987 y 2007 del Banco de España usan la renta del hogar y se muestran solo como contexto histórico. Los ejes de tiempo están a escala real; la serie de fecundidad muestra valores del INE con puntos intermedios indicativos.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var SVGNS="http://www.w3.org/2000/svg";
+  function el(t,a){var e=document.createElementNS(SVGNS,t);if(a)for(var k in a)e.setAttribute(k,a[k]);return e;}
+  function fmt(n,d){return n.toLocaleString('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function txt(svg,x,y,s,o){var t=el('text',{x:x,y:y});if(o)for(var k in o)t.setAttribute(k,o[k]);t.textContent=s;svg.appendChild(t);return t;}
+
+  /* ===== SALARY horizontal bars ===== */
+  function buildSal(){
+    var svg=document.getElementById('svg-sal'),W=560,H=300,pad={l:150,r:74,t:14,b:14},maxV=32000;
+    var data=[{n:'Media',v:29540,c:'var(--gold)'},{n:'Mediana',v:24497,c:'var(--earn)'},{n:'Más frecuente',v:16520,c:'var(--cost)'}];
+    var bw=W-pad.l-pad.r,n=data.length,gap=22,bh=((H-pad.t-pad.b)-gap*(n-1))/n,items=[];
+    data.forEach(function(d,i){
+      var y=pad.t+i*(bh+gap);
+      svg.appendChild(el('rect',{x:pad.l,y:y,width:bw,height:bh,rx:5,fill:'var(--paper-2)'}));
+      var b=el('rect',{x:pad.l,y:y,width:0,height:bh,rx:5,fill:d.c,class:'bar','data-i':i});svg.appendChild(b);b._w=bw*(d.v/maxV);
+      txt(svg,pad.l-10,y+bh/2+5,d.n,{class:'barlbl','text-anchor':'end','font-weight':'600'});
+      var v=txt(svg,pad.l+10,y+bh/2+6,fmt(d.v,0)+' €',{fill:d.c,'font-size':17,class:'plabel','font-family':'Fraunces,serif','font-weight':'600'});
+      items.push({b:b,v:v,x0:pad.l});
+    });
+    var drawn=false;
+    svg._draw=function(){};
+    svg._step=function(s){
+      if(!drawn){setTimeout(function(){items.forEach(function(o){o.b.setAttribute('width',o.b._w);o.v.setAttribute('x',o.x0+o.b._w+10);o.v.classList.add('on');});},60);drawn=true;}
+      var map=[0,2,1],hi=map[s];
+      items.forEach(function(o,i){o.b.style.opacity=(i===hi?1:0.3);o.v.style.opacity=(i===hi?1:0.4);});
+    };
+    return svg;
+  }
+
+  /* ===== generic TIME LINE (proportional x) ===== */
+  function buildTimeLine(id,cfg){
+    var svg=document.getElementById(id),W=560,H=420,pad=cfg.pad;
+    function X(yr){return pad.l+(W-pad.l-pad.r)*(yr-cfg.xMin)/(cfg.xMax-cfg.xMin);}
+    function Y(v){return H-pad.b-(H-pad.t-pad.b)*(v-cfg.yMin)/(cfg.yMax-cfg.yMin);}
+    cfg.yTicks.forEach(function(g){var y=Y(g);svg.appendChild(el('line',{x1:pad.l,y1:y,x2:W-pad.r,y2:y,class:'grid-line'}));txt(svg,pad.l-9,y+4,fmt(g,cfg.yDec||0),{class:'axis-txt','text-anchor':'end'});});
+    cfg.xTicks.forEach(function(yr){txt(svg,X(yr),H-pad.b+22,''+yr,{class:'axis-txt','text-anchor':'middle'});});
+    if(cfg.ref){var yr=Y(cfg.ref.v);svg.appendChild(el('line',{x1:pad.l,y1:yr,x2:W-pad.r,y2:yr,stroke:'var(--gold)','stroke-width':1.2,'stroke-dasharray':'5 4',opacity:.7}));txt(svg,W-pad.r,yr-8,cfg.ref.label,{class:'axis-txt','text-anchor':'end',fill:'var(--gold)'});}
+    var d=cfg.data,pathD="";d.forEach(function(p,i){pathD+=(i?' L':'M')+X(p.x)+','+Y(p.y);});
+    var defs=el('defs'),gr=el('linearGradient',{id:id+'g',x1:0,y1:0,x2:0,y2:1});
+    gr.appendChild(el('stop',{offset:'0%','stop-color':cfg.color,'stop-opacity':'.22'}));
+    gr.appendChild(el('stop',{offset:'100%','stop-color':cfg.color,'stop-opacity':'0'}));
+    defs.appendChild(gr);svg.appendChild(defs);
+    var area=el('path',{d:pathD+' L'+X(d[d.length-1].x)+','+Y(cfg.yMin)+' L'+X(d[0].x)+','+Y(cfg.yMin)+' Z',fill:'url(#'+id+'g)',class:'pt'});svg.appendChild(area);
+    var line=el('path',{d:pathD,stroke:cfg.color,class:'lp'});svg.appendChild(line);line.style.setProperty('--len',line.getTotalLength());
+    var pts=[];
+    d.forEach(function(p){
+      var c=el('circle',{cx:X(p.x),cy:Y(p.y),r:5,fill:p.c||cfg.color,stroke:'var(--paper)','stroke-width':2.5,class:'pt'});svg.appendChild(c);
+      var lb=p.label?txt(svg,X(p.x),Y(p.y)+(p.below?26:-15),p.label,{'text-anchor':p.anchor||'middle',fill:p.c||cfg.color,'font-size':p.big?22:16,class:'plabel','font-family':'Fraunces,serif'}):null;
+      pts.push({c:c,lb:lb,x:p.x,base:p.c||cfg.color});
+    });
+    svg._draw=function(){line.classList.add('drawn');area.classList.add('on');pts.forEach(function(o){o.c.classList.add('on');});};
+    svg._step=function(s){
+      var focus=cfg.focus[s]||[];
+      pts.forEach(function(o){
+        var hot=focus.indexOf(o.x)>-1;
+        o.c.setAttribute('r',hot?7.5:4.5);
+        o.c.style.opacity=hot?1:0.5;
+        if(o.lb)o.lb.classList.toggle('on',hot);
+      });
+    };
+    return svg;
+  }
+
+  /* ===== divergence slope (honest 2 endpoints) ===== */
+  function buildDiv(){
+    var svg=document.getElementById('svg-div'),W=560,H=420,pad={l:44,r:64,t:30,b:52},yMin=90,yMax=190;
+    function X(t){return pad.l+(W-pad.l-pad.r)*t;}function Y(v){return H-pad.b-(H-pad.t-pad.b)*(v-yMin)/(yMax-yMin);}
+    [100,140,180].forEach(function(g){var y=Y(g);svg.appendChild(el('line',{x1:pad.l,y1:y,x2:W-pad.r,y2:y,class:'grid-line'}));txt(svg,pad.l-9,y+4,g,{class:'axis-txt','text-anchor':'end'});});
+    txt(svg,X(0),H-pad.b+22,'2014',{class:'axis-txt','text-anchor':'start'});
+    txt(svg,X(1),H-pad.b+22,'2024',{class:'axis-txt','text-anchor':'end'});
+    var gap=el('path',{d:'M'+X(0)+','+Y(100)+' L'+X(1)+','+Y(182)+' L'+X(1)+','+Y(130)+' Z',fill:'var(--gold)',opacity:0,class:'gapfill'});svg.appendChild(gap);gap.style.transition='opacity .7s ease';
+    function line(end,color){var p=el('path',{d:'M'+X(0)+','+Y(100)+' L'+X(1)+','+Y(end),stroke:color,class:'lp'});svg.appendChild(p);p.style.setProperty('--len',p.getTotalLength());return p;}
+    var sL=line(130,'var(--earn)'),rL=line(182,'var(--cost)');
+    var rEnd=txt(svg,X(1)+8,Y(182)+4,'+82%',{fill:'var(--cost)','font-size':17,class:'plabel','font-family':'Fraunces,serif'});
+    var sEnd=txt(svg,X(1)+8,Y(130)+4,'+30%',{fill:'var(--earn)','font-size':17,class:'plabel','font-family':'Fraunces,serif'});
+    var rTag=txt(svg,X(0)+6,Y(100)-10,'Alquiler',{fill:'var(--cost)','font-size':13,class:'plabel','font-weight':'700'});
+    var sTag=txt(svg,X(0)+6,Y(100)+18,'Sueldos',{fill:'var(--earn)','font-size':13,class:'plabel','font-weight':'700'});
+    svg._draw=function(){};
+    svg._step=function(s){
+      if(s>=0){sL.classList.add('drawn');sTag.classList.add('on');}
+      if(s>=1){rL.classList.add('drawn');rTag.classList.add('on');}else{rL.classList.remove('drawn');rTag.classList.remove('on');}
+      if(s>=1){sEnd.classList.add('on');rEnd.classList.add('on');}else{sEnd.classList.remove('on');rEnd.classList.remove('on');}
+      gap.style.opacity=s>=2?.24:0;
+    };
+    return svg;
+  }
+
+  /* ===== CCAA years bars ===== */
+  var ccaaData=[{n:'Baleares',v:17.0},{n:'Madrid',v:15.0},{n:'País Vasco',v:11.3},{n:'Canarias',v:10.4},
+    {n:'Cataluña',v:9.1},{n:'España (media)',v:9.1,avg:true},{n:'Extremadura',v:3.4,ap:true}];
+  function buildCcaa(){
+    var svg=document.getElementById('svg-ccaa'),W=560,H=470,pad={l:120,r:52,t:8,b:8},maxV=18;
+    var bw=W-pad.l-pad.r,n=ccaaData.length,gap=10,bh=((H-pad.t-pad.b)-gap*(n-1))/n,items=[];
+    ccaaData.forEach(function(d,i){
+      var y=pad.t+i*(bh+gap),c=d.avg?'var(--gold)':(d.v>=9?'var(--cost)':'var(--earn)');
+      svg.appendChild(el('rect',{x:pad.l,y:y,width:bw,height:bh,rx:4,fill:'var(--paper-2)'}));
+      var b=el('rect',{x:pad.l,y:y,width:0,height:bh,rx:4,fill:c,class:'bar','data-i':i});svg.appendChild(b);b._w=bw*(d.v/maxV);b._c=c;b._avg=!!d.avg;b._ap=!!d.ap;
+      var lb=txt(svg,pad.l-10,y+bh/2+4,d.n,{class:'barlbl','text-anchor':'end'});if(d.avg)lb.setAttribute('font-weight','700');
+      var v=txt(svg,pad.l+8,y+bh/2+5,(d.ap?'~':'')+fmt(d.v,1),{fill:c,'font-size':14,class:'plabel','font-family':'Fraunces,serif','font-weight':'600'});
+      items.push({b:b,v:v,x0:pad.l});
+    });
+    var drawn=false;
+    svg._draw=function(){};
+    svg._step=function(s){
+      if(!drawn){setTimeout(function(){items.forEach(function(o){o.b.setAttribute('width',o.b._w);o.v.setAttribute('x',o.x0+o.b._w+8);o.v.classList.add('on');});},60);drawn=true;}
+      items.forEach(function(o,i){var d=ccaaData[i];var hi;
+        if(s===0)hi=i<=1; else if(s===1)hi=d.avg; else hi=d.ap;
+        o.b.style.opacity=d.avg?(s===1?.95:.32):(hi?1:.32);
+        o.v.style.opacity=d.avg?(s===1?1:.4):(hi?1:.45);
+      });
+    };
+    return svg;
+  }
+
+  /* ===== gap deseado/real ===== */
+  function buildGap(){
+    var svg=document.getElementById('svg-gap'),W=560,H=420,pad={l:70,r:60,t:30,b:56},maxV=2.4;
+    var xD=W*0.34,xR=W*0.66;
+    function Y(v){return H-pad.b-(H-pad.t-pad.b)*(v/maxV);}
+    [0,0.5,1,1.5,2].forEach(function(g){var y=Y(g);svg.appendChild(el('line',{x1:pad.l,y1:y,x2:W-pad.r,y2:y,class:'grid-line'}));txt(svg,pad.l-8,y+4,fmt(g,1),{class:'axis-txt','text-anchor':'end'});});
+    var yRep=Y(2.01);svg.appendChild(el('line',{x1:pad.l,y1:yRep,x2:W-pad.r,y2:yRep,stroke:'var(--gold)','stroke-width':1.2,'stroke-dasharray':'5 4',opacity:.7}));
+    txt(svg,W-pad.r,yRep-8,'2,01 = relevo generacional',{class:'axis-txt','text-anchor':'end',fill:'var(--gold)'});
+    var bw=88;
+    function bar(x,v,color){var b=el('rect',{x:x-bw/2,y:Y(0),width:bw,height:0,rx:5,fill:color,class:'gapbar','data-v':v});svg.appendChild(b);return b;}
+    var bD=bar(xD,2.0,'var(--earn)'),bR=bar(xR,1.10,'var(--cost)');
+    txt(svg,xD,H-pad.b+24,'DESEAN',{'text-anchor':'middle',fill:'var(--earn)','font-size':13,'font-weight':'700'});
+    txt(svg,xR,H-pad.b+24,'TIENEN',{'text-anchor':'middle',fill:'var(--cost)','font-size':13,'font-weight':'700'});
+    var vD=txt(svg,xD,Y(2.0)-14,'2,0',{'text-anchor':'middle',fill:'var(--earn)','font-size':26,class:'plabel','font-family':'Fraunces,serif','font-weight':'700'});
+    var vR=txt(svg,xR,Y(1.10)-14,'1,10',{'text-anchor':'middle',fill:'var(--cost)','font-size':26,class:'plabel','font-family':'Fraunces,serif','font-weight':'700'});
+    var g=el('g',{class:'gapmark',opacity:0});g.style.transition='opacity .6s ease';
+    var gy1=Y(2.0),gy2=Y(1.10),gx=(xD+xR)/2;
+    g.appendChild(el('line',{x1:gx,y1:gy1,x2:gx,y2:gy2,stroke:'var(--gold)','stroke-width':2}));
+    g.appendChild(el('line',{x1:gx-6,y1:gy1,x2:gx+6,y2:gy1,stroke:'var(--gold)','stroke-width':2}));
+    g.appendChild(el('line',{x1:gx-6,y1:gy2,x2:gx+6,y2:gy2,stroke:'var(--gold)','stroke-width':2}));
+    txt(g,gx,(gy1+gy2)/2+4,'la brecha',{'text-anchor':'middle',fill:'var(--gold)','font-size':13,'font-weight':'700'});
+    svg.appendChild(g);
+    function grow(b,v){b.setAttribute('y',Y(v));b.setAttribute('height',(H-pad.b)-Y(v));}
+    svg._draw=function(){};
+    svg._step=function(s){
+      if(s>=0){grow(bD,2.0);vD.classList.add('on');}
+      if(s>=1){grow(bR,1.10);vR.classList.add('on');}else{bR.setAttribute('height',0);bR.setAttribute('y',Y(0));vR.classList.remove('on');}
+      g.style.opacity=s>=2?1:0;
+    };
+    return svg;
+  }
+
+  /* ===== razones ===== */
+  var razData=[{n:'Tener una vivienda adecuada',v:68,ctx:'condición para plantearse hijos'},
+    {n:'Contrato temporal (menores de 30)',v:52,ctx:'inestabilidad laboral'},
+    {n:'Motivos económicos / conciliación',v:28,ctx:'mujeres 30-34 sin hijos aún'}];
+  function buildRaz(){
+    var svg=document.getElementById('svg-raz'),W=560,H=380,pad={l:14,r:56,t:20,b:20},maxV=100;
+    var bw=W-pad.l-pad.r,gap=44,bh=34,items=[];
+    razData.forEach(function(d,i){
+      var y=pad.t+i*(bh+gap);
+      txt(svg,pad.l,y-8,d.n,{class:'barlbl','font-weight':'600'});
+      svg.appendChild(el('rect',{x:pad.l,y:y,width:bw,height:bh,rx:4,fill:'var(--paper-2)'}));
+      var b=el('rect',{x:pad.l,y:y,width:0,height:bh,rx:4,fill:'var(--cost)',class:'bar','data-i':i});svg.appendChild(b);b._w=bw*(d.v/maxV);
+      var v=txt(svg,pad.l,y+bh/2+6,d.v+'%',{fill:'#fff','font-size':16,class:'plabel','font-family':'Fraunces,serif','font-weight':'600'});
+      txt(svg,pad.l+2,y+bh+18,d.ctx,{class:'axis-txt'});
+      items.push({b:b,v:v,x0:pad.l});
+    });
+    var drawn=false;
+    svg._draw=function(){};
+    svg._step=function(s){
+      if(!drawn){setTimeout(function(){items.forEach(function(o){o.b.setAttribute('width',o.b._w);
+        if(o.b._w>60){o.v.setAttribute('x',o.x0+o.b._w-10);o.v.setAttribute('text-anchor','end');o.v.setAttribute('fill','#fff');}
+        else{o.v.setAttribute('x',o.x0+o.b._w+8);o.v.setAttribute('text-anchor','start');o.v.setAttribute('fill','var(--cost)');}
+        o.v.classList.add('on');});},60);drawn=true;}
+      items.forEach(function(o,i){o.b.style.opacity=(i<=s?1:0.28);});
+    };
+    return svg;
+  }
+
+  /* ===== INIT ===== */
+  var charts={};
+  function init(){
+    charts.sal=buildSal();
+    charts.evo=buildTimeLine('svg-evo',{pad:{l:44,r:44,t:34,b:52},xMin:2015,xMax:2025,yMin:0,yMax:10,yTicks:[0,2,4,6,8,10],xTicks:[2015,2020,2025],color:'var(--cost)',
+      data:[{x:2015,y:5.5,label:'5,5',anchor:'start',below:true},{x:2016,y:5.7},{x:2017,y:5.9},{x:2018,y:6.4},{x:2019,y:6.2},{x:2020,y:6.0,label:'6,0'},{x:2023,y:6.7},{x:2024,y:7.1},{x:2025,y:8.4,label:'8,4',big:true,anchor:'end'}],
+      focus:[[2015],[2020],[2025]]});
+    charts.div=buildDiv();
+    charts.ccaa=buildCcaa();
+    charts.fert=buildTimeLine('svg-fert',{pad:{l:40,r:44,t:30,b:52},xMin:1975,xMax:2025,yMin:0,yMax:3,yDec:1,yTicks:[0,1,2,3],xTicks:[1980,2000,2020],color:'var(--cost)',ref:{v:2.01,label:'2,01 relevo'},
+      data:[{x:1976,y:2.80,label:'2,8',big:true,anchor:'start'},{x:1981,y:2.04,label:'2,01'},{x:1998,y:1.16,label:'1,16',below:true},{x:2008,y:1.45,label:'1,45'},{x:2024,y:1.10,label:'1,10',big:true,anchor:'end',below:true}],
+      focus:[[1976],[1981],[2024]]});
+    charts.gap=buildGap();
+    charts.raz=buildRaz();
+
+    var mm=window.matchMedia('(max-width:820px)').matches;
+    var rootMargin=mm?'-48% 0px -30% 0px':'-45% 0px -45% 0px';
+    var sceneDrawn={};
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        var st=e.target;
+        st.parentNode.querySelectorAll('.step').forEach(function(s){s.classList.remove('is-active');});
+        st.classList.add('is-active');
+        var sc=st.getAttribute('data-scene'),step=+st.getAttribute('data-step'),c=charts[sc];
+        if(c){if(!sceneDrawn[sc]){c._draw();sceneDrawn[sc]=true;}c._step(step);}
+      });
+    },{rootMargin:rootMargin,threshold:0});
+    document.querySelectorAll('.step').forEach(function(s){obs.observe(s);});
+    if(reduce){Object.keys(charts).forEach(function(k){charts[k]._draw();charts[k]._step(2);});}
+  }
+  function onScroll(){var h=document.documentElement;var p=h.scrollTop/(h.scrollHeight-h.clientHeight);document.getElementById('progress').style.width=(p*100)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});
+  if(document.readyState==='complete'||document.readyState==='interactive')setTimeout(init,80);
+  else window.addEventListener('DOMContentLoaded',function(){setTimeout(init,80);});
+})();
+</script>
+</body>
+</html>
